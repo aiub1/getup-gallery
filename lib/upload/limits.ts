@@ -10,13 +10,13 @@ export const MAX_PHOTOS_PER_PREPARE = 20;
 
 /** Tamanho máximo, em bytes, do arquivo já convertido para WebP. */
 export const MAX_VARIANT_BYTES: Record<UploadVariant, number> = {
-  original: 15 * 1024 * 1024,
+  original: 30 * 1024 * 1024,
   web: 3 * 1024 * 1024,
   thumb: 300 * 1024,
 };
 
 /** Arquivo escolhido pelo usuário, antes da conversão. */
-export const MAX_SOURCE_BYTES = 20 * 1024 * 1024;
+export const MAX_SOURCE_BYTES = 50 * 1024 * 1024;
 export const ACCEPTED_SOURCE_TYPES = ["image/jpeg", "image/png"] as const;
 
 export const UPLOAD_CONTENT_TYPE = "image/webp";

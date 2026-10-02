@@ -229,7 +229,7 @@ export function UploadPanel({
         }
       >
         <Icon name="upload-cloud" size={28} className="text-ink-4" />
-        <p className="m-0 text-body-sm text-text-muted">Solte as fotos aqui ou selecione do computador. JPG ou PNG, até 20 MB cada.</p>
+        <p className="m-0 text-body-sm text-text-muted">Solte as fotos aqui ou selecione do computador. JPG ou PNG, até 50 MB cada.</p>
         <Button variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
           Selecionar fotos
         </Button>

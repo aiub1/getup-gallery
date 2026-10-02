@@ -32,7 +32,7 @@ describe("confirmUploadSchema", () => {
   });
 
   it("recusa tamanhos acima do limite de cada variante", () => {
-    expect(confirmUploadSchema.safeParse({ ...confirm, originalBytes: 15 * 1024 * 1024 + 1 }).success).toBe(false);
+    expect(confirmUploadSchema.safeParse({ ...confirm, originalBytes: 30 * 1024 * 1024 + 1 }).success).toBe(false);
     expect(confirmUploadSchema.safeParse({ ...confirm, webBytes: 3 * 1024 * 1024 + 1 }).success).toBe(false);
     expect(confirmUploadSchema.safeParse({ ...confirm, thumbBytes: 300 * 1024 + 1 }).success).toBe(false);
     expect(confirmUploadSchema.safeParse({ ...confirm, thumbBytes: 300 * 1024 }).success).toBe(true);

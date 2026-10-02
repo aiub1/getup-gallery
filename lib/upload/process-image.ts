@@ -138,7 +138,7 @@ export function validateSourceFile(file: File): string | null {
   if (!(ACCEPTED_SOURCE_TYPES as readonly string[]).includes(file.type)) {
     return "Formato não aceito. Envie JPG ou PNG.";
   }
-  if (file.size > MAX_SOURCE_BYTES) return "Arquivo maior que 20 MB.";
+  if (file.size > MAX_SOURCE_BYTES) return "Arquivo maior que 50 MB.";
   if (file.size === 0) return "Arquivo vazio.";
   return null;
 }
