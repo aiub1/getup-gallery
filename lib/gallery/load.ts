@@ -110,7 +110,7 @@ export async function loadTiles(
     // Pede uma a mais para saber se há próxima página.
     const { data, error } = await supabase.rpc("public_event_photos", {
       p_slug: serverEnv.EVENT_SLUG,
-      p_session_id: args.sessionId,
+      p_session_id: args.sessionId ?? undefined,
       p_limit: PHOTOS_PAGE_SIZE + 1,
       p_offset: args.offset,
     });
