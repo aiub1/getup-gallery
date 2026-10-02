@@ -58,20 +58,6 @@ const STATE_LABEL: Record<Item["state"], string> = {
 
 const isBusy = (item: Item) => item.state === "processing" || item.state === "uploading" || item.state === "confirming";
 
-function Choice({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) {
-  return (
-    <label
-      className={
-        "flex cursor-pointer items-center gap-[10px] rounded-[var(--radius-control)] px-[16px] py-[11px] font-ui text-[13px] font-bold uppercase tracking-[var(--ls-label)] transition-[var(--transition-control)] has-[:focus-visible]:shadow-[var(--ring-focus)] " +
-        (checked ? "bg-clay-3 text-text-on-accent" : "bg-surface-sunken text-text-strong shadow-[inset_0_0_0_1px_var(--paper-4)] hover:shadow-[inset_0_0_0_1px_var(--ink-1)]")
-      }
-    >
-      <input type="radio" name="contains-minors" checked={checked} onChange={onChange} className="sr-only" />
-      {label}
-    </label>
-  );
-}
-
 export function UploadPanel({
   eventId,
   sessions,
@@ -85,8 +71,6 @@ export function UploadPanel({
 }) {
   const router = useRouter();
   const [sessionId, setSessionId] = useState(defaultSessionId ?? "");
-  // Sem valor padrão: quem envia precisa responder (CONTRATO §8, invariante 2).
-  const [containsMinors, setContainsMinors] = useState<boolean | null>(null);
   const [items, dispatch] = useReducer(reducer, []);
   const [rejected, setRejected] = useState<string[]>([]);
   const [webp, setWebp] = useState<"checking" | "ok" | "unsupported">("checking");
@@ -99,7 +83,7 @@ export function UploadPanel({
   const waiting = items.filter((item) => item.state === "idle" || item.state === "error");
   const done = items.filter((item) => item.state === "done").length;
   const needsSession = sessions.length > 0 && sessionId === "";
-  const canPublish = !busy && webp === "ok" && waiting.length > 0 && containsMinors !== null && !needsSession;
+  const canPublish = !busy && webp === "ok" && waiting.length > 0 && !needsSession;
 
   useEffect(() => {
     let alive = true;
@@ -136,8 +120,7 @@ export function UploadPanel({
   }
 
   async function publish() {
-    if (!canPublish || containsMinors === null) return;
-    const answer = containsMinors;
+    if (!canPublish) return;
     const target = sessionId || null;
     setPublishing(true);
 
@@ -149,7 +132,8 @@ export function UploadPanel({
           file: item.file,
           eventId,
           sessionId: target,
-          containsMinors: answer,
+          // Decisão do dono: o GetUp não terá menores, então não há pergunta no envio.
+          containsMinors: false,
           isPrivate: false,
           ...(item.resume ? { resume: item.resume } : {}),
         },
@@ -190,7 +174,7 @@ export function UploadPanel({
         </p>
       )}
 
-      <div className="grid gap-[24px] md:grid-cols-2">
+      <div className="grid gap-[24px]">
         <Select
           label="Sessão"
           name="session"
@@ -200,20 +184,6 @@ export function UploadPanel({
           options={[{ value: "", label: "Escolha a sessão" }, ...sessions.map((s) => ({ value: s.id, label: s.name }))]}
         />
 
-        <fieldset className="m-0 min-w-0 border-0 p-0" disabled={busy}>
-          <legend className="mb-[var(--space-2)] p-0 font-ui text-micro font-bold uppercase tracking-[var(--ls-label)] text-text-strong">
-            Estas fotos têm criança ou adolescente?
-          </legend>
-          <div className="flex gap-[8px]">
-            <Choice label="Não" checked={containsMinors === false} onChange={() => setContainsMinors(false)} />
-            <Choice label="Sim" checked={containsMinors === true} onChange={() => setContainsMinors(true)} />
-          </div>
-          <p className="mb-0 mt-[8px] text-body-sm text-text-muted">
-            A resposta vale para todas as fotos deste envio. Fotos com menores ficam guardadas, mas{" "}
-            <strong className="font-semibold text-text-strong">não aparecem na página pública</strong>. Na dúvida, separe
-            em dois envios.
-          </p>
-        </fieldset>
       </div>
 
       <div
@@ -301,9 +271,9 @@ export function UploadPanel({
             Limpar publicadas ({done})
           </Button>
         )}
-        {!busy && waiting.length > 0 && (needsSession || containsMinors === null) && (
+        {!busy && waiting.length > 0 && needsSession && (
           <p className="m-0 text-body-sm text-text-muted">
-            {needsSession ? "Escolha a sessão" : "Responda a pergunta sobre menores"} para publicar.
+            Escolha a sessão para publicar.
           </p>
         )}
       </div>
