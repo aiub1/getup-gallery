@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_SUPABASE_URL: http://localhost:54321
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: dummy-anon-key
+      SUPABASE_SERVICE_ROLE_KEY: dummy-service-role-key
+      R2_ACCOUNT_ID: dummy-account
+      R2_ACCESS_KEY_ID: dummy-key-id
+      R2_SECRET_ACCESS_KEY: dummy-secret
+      R2_BUCKET: dummy-bucket
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
+
+  env-boundaries:
+    name: Fronteira de variáveis de servidor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SUPABASE_SERVICE_ROLE_KEY só em lib/env.server.ts e lib/supabase/admin.ts
+        run: |
+          hits="$(grep -rln 'SUPABASE_SERVICE_ROLE_KEY' --include='*.ts' --include='*.tsx' . \
+            --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git \
+            | grep -v -E '^\./lib/env\.server\.ts$|^\./lib/supabase/admin\.ts$' || true)"
+          if [ -n "$hits" ]; then echo "::error::service role fora do lugar: $hits"; exit 1; fi
+      - name: cliente service_role só é importado por lib/jobs/
+        run: |
+          hits="$(grep -rlE "supabase/admin['\"]" --include='*.ts' --include='*.tsx' . \
+            --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git \
+            | grep -v -E '\.test\.tsx?$|^\./lib/jobs/enqueue-(index-faces|delete-objects)\.ts$' || true)"
+          if [ -n "$hits" ]; then echo "::error::lib/supabase/admin importado fora de lib/jobs: $hits"; exit 1; fi

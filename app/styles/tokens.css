@@ -1,0 +1,187 @@
+/*
+ * Design tokens — copied from docs/design/extracted/tokens.source.css
+ * (extracted from docs/design/mockups.html by scripts/extract-mockup.mjs).
+ * Do not hand-edit values here; regenerate from the mockup and re-copy.
+ *
+ * DIVERGENCE FROM THE DESIGN SYSTEM (ADR 0001): the mockup defines
+ * `--text-body` twice — as a colour (alias, ink-2) and as a size (16px). The
+ * second declaration wins, so the colour was dead. The mockup uses the name
+ * as a colour 43 times (`color:var(--text-body)`) and as a size 3 times
+ * (`font-size:var(--text-body)`, which resolves to nothing there). Here the
+ * name stays with the colour and the size is renamed `--text-body-md`. After
+ * regenerating from the mockup, re-apply this rename.
+ */
+
+:root {
+  /* base ink */
+  --ink-1: #0b0b0c;
+  --ink-2: #1a1a1d;
+  --ink-3: #3a3a40;
+  --ink-4: #6b6b73;
+  --ink-5: #9c9ca4;
+  /* base paper */
+  --paper-1: #ffffff;
+  --paper-2: #f6f4f1;
+  --paper-3: #ede9e4;
+  --paper-4: #e0dad3;
+  /* clay — the single brand accent */
+  --clay-1: #f6e7dd;
+  --clay-2: #e3b79b;
+  --clay-3: #b3541e;
+  --clay-4: #9a461a;
+  --clay-5: #6e2f10;
+  /* semantic status */
+  --green-3: #2f6b4f;
+  --amber-3: #b98900;
+  --red-3: #a32020;
+  --slate-3: #2b5566;
+  /* aliases — surfaces */
+  --surface-page: var(--paper-2);
+  --surface-card: var(--paper-1);
+  --surface-sunken: var(--paper-3);
+  --surface-inverse: var(--ink-1);
+  --surface-accent: var(--clay-3);
+  --surface-accent-soft: var(--clay-1);
+  /* aliases — text */
+  --text-body: var(--ink-2);
+  --text-strong: var(--ink-1);
+  --text-muted: var(--ink-4);
+  --text-on-inverse: var(--paper-1);
+  --text-on-accent: var(--paper-1);
+  --text-accent: var(--clay-3);
+  --text-link: var(--clay-3);
+  --text-link-hover: var(--clay-5);
+  /* aliases — lines */
+  --border-hairline: var(--paper-4);
+  --border-strong: var(--ink-1);
+  --border-accent: var(--clay-3);
+  /* overlays */
+  --overlay-scrim: rgba(11, 11, 12, 0.62);
+  --overlay-protect: linear-gradient(
+    180deg,
+    rgba(11, 11, 12, 0) 0%,
+    rgba(11, 11, 12, 0.1) 40%,
+    rgba(11, 11, 12, 0.8) 100%
+  );
+  --overlay-glass: rgba(11, 11, 12, 0.55);
+}
+
+[data-theme="inverse"] {
+  --surface-page: var(--ink-1);
+  --surface-card: var(--ink-2);
+  --surface-sunken: #121214;
+  --text-body: #e8e6e3;
+  --text-strong: var(--paper-1);
+  --text-muted: var(--ink-5);
+  --border-hairline: #2c2c31;
+  --border-strong: var(--paper-1);
+  --text-link: var(--clay-2);
+  --text-link-hover: var(--paper-1);
+}
+
+:root {
+  --font-display: "Bebas Neue", "Archivo Narrow", Impact, sans-serif;
+  --font-ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-scripture: "Spectral", Georgia, "Times New Roman", serif;
+
+  --text-display-1: clamp(56px, 9vw, 124px);
+  --text-display-2: clamp(40px, 6vw, 80px);
+  --text-display-3: clamp(30px, 4vw, 52px);
+  --text-display-4: 24px;
+
+  --text-h1: 34px;
+  --text-h2: 26px;
+  --text-h3: 20px;
+  --text-h4: 17px;
+  --text-body-lg: 19px;
+  --text-body-md: 16px;
+  --text-body-sm: 14px;
+  --text-micro: 12px;
+  --text-scripture-lg: 26px;
+  --text-scripture: 19px;
+
+  --lh-display: 0.92;
+  --lh-heading: 1.18;
+  --lh-body: 1.6;
+  --lh-scripture: 1.62;
+
+  --ls-display: 0.02em;
+  --ls-label: 0.16em;
+  --ls-eyebrow: 0.22em;
+  --ls-body: 0;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+}
+
+:root {
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --gutter-page: 24px;
+  --gutter-page-lg: 64px;
+  --measure-prose: 62ch;
+  --measure-scripture: 46ch;
+  --max-content: 1200px;
+  --max-narrow: 760px;
+  --section-y: var(--space-9);
+  --section-y-tight: var(--space-7);
+}
+
+:root {
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 8px;
+  --radius-pill: 999px;
+  --radius-card: var(--radius-1);
+  --radius-control: var(--radius-0);
+  --radius-media: var(--radius-1);
+  --border-w-hairline: 1px;
+  --border-w-strong: 2px;
+}
+
+:root {
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(11, 11, 12, 0.06);
+  --shadow-2: 0 6px 20px rgba(11, 11, 12, 0.1);
+  --shadow-3: 0 18px 48px rgba(11, 11, 12, 0.18);
+  --shadow-inset-hairline: inset 0 0 0 1px var(--border-hairline);
+  --ring-focus: 0 0 0 2px var(--paper-1), 0 0 0 4px var(--clay-3);
+  --blur-glass: blur(14px) saturate(120%);
+}
+
+:root {
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --dur-reveal: 700ms;
+  --transition-control:
+    background-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-reveal: 0ms;
+  }
+}

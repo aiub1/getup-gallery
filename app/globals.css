@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+/*
+ * Identidade do Figma "POIEMA GALLERY": fundo escuro, um único laranja de
+ * destaque, cantos levemente arredondados. Em vez de reescrever cada
+ * componente, as escalas do design system Poiema são REDEFINIDAS aqui:
+ * "paper" passa a ser a escala de superfícies escuras, "ink" a de textos
+ * claros e "clay" o laranja. Valores medidos no print do Figma (a conta não
+ * tem acesso de leitura ao arquivo); ajuste aqui se o arquivo disser outra coisa.
+ */
+:root {
+  --ink-1: #f4f4f4;
+  --ink-2: #dedede;
+  --ink-3: #b4b4b4;
+  --ink-4: #8a8a8a;
+  --ink-5: #5c5c5c;
+  --paper-1: #1a1a1a;
+  --paper-2: #0d0d0d;
+  --paper-3: #141414;
+  --paper-4: #2a2a2a;
+  --clay-1: #2b1609;
+  --clay-2: #ff9a66;
+  --clay-3: #f26a2b;
+  --clay-4: #dc5a1e;
+  --clay-5: #ffb38a;
+  --green-3: #5fbf8f;
+  --red-3: #ff6b6b;
+  --text-on-accent: #140a04;
+  --ring-focus: 0 0 0 2px var(--paper-2), 0 0 0 4px var(--clay-3);
+  /* Sobre foto e no visualizador: sempre preto/branco, não seguem o tema. */
+  --night: #050505;
+  --snow: #ffffff;
+  --radius-card: 6px;
+  --radius-control: 4px;
+
+  --font-ui: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-ui);
+  --font-scripture: var(--font-ui);
+  color-scheme: dark;
+}
+
+@theme inline {
+  /* colors — base scales */
+  --color-ink-1: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  --color-ink-5: var(--ink-5);
+  --color-paper-1: var(--paper-1);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-paper-4: var(--paper-4);
+  --color-clay-1: var(--clay-1);
+  --color-clay-2: var(--clay-2);
+  --color-clay-3: var(--clay-3);
+  --color-clay-4: var(--clay-4);
+  --color-clay-5: var(--clay-5);
+  --color-green-3: var(--green-3);
+  --color-amber-3: var(--amber-3);
+  --color-red-3: var(--red-3);
+  --color-slate-3: var(--slate-3);
+  --color-night: var(--night);
+  --color-snow: var(--snow);
+
+  /* colors — semantic aliases */
+  --color-surface-page: var(--surface-page);
+  --color-surface-card: var(--surface-card);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-surface-accent: var(--surface-accent);
+  --color-surface-accent-soft: var(--surface-accent-soft);
+  --color-text-body: var(--text-body);
+  --color-text-strong: var(--text-strong);
+  --color-text-muted: var(--text-muted);
+  --color-text-on-inverse: var(--text-on-inverse);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-text-accent: var(--text-accent);
+  --color-text-link: var(--text-link);
+  --color-text-link-hover: var(--text-link-hover);
+  --color-border-hairline: var(--border-hairline);
+  --color-border-strong: var(--border-strong);
+  --color-border-accent: var(--border-accent);
+
+  /* fonts */
+  --font-display: var(--font-display);
+  --font-ui: var(--font-ui);
+  --font-scripture: var(--font-scripture);
+
+  /* text sizes */
+  --text-display-1: var(--text-display-1);
+  --text-display-1--line-height: var(--lh-display);
+  --text-display-2: var(--text-display-2);
+  --text-display-2--line-height: var(--lh-display);
+  --text-display-3: var(--text-display-3);
+  --text-display-3--line-height: var(--lh-display);
+  --text-display-4: var(--text-display-4);
+  --text-display-4--line-height: var(--lh-display);
+  --text-h1: var(--text-h1);
+  --text-h1--line-height: var(--lh-heading);
+  --text-h2: var(--text-h2);
+  --text-h2--line-height: var(--lh-heading);
+  --text-h3: var(--text-h3);
+  --text-h3--line-height: var(--lh-heading);
+  --text-h4: var(--text-h4);
+  --text-h4--line-height: var(--lh-heading);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-lg--line-height: var(--lh-body);
+  --text-body-md: var(--text-body-md);
+  --text-body-md--line-height: var(--lh-body);
+  --text-body-sm: var(--text-body-sm);
+  --text-body-sm--line-height: var(--lh-body);
+  --text-micro: var(--text-micro);
+  --text-micro--line-height: var(--lh-body);
+  --text-scripture-lg: var(--text-scripture-lg);
+  --text-scripture-lg--line-height: var(--lh-scripture);
+  --text-scripture: var(--text-scripture);
+  --text-scripture--line-height: var(--lh-scripture);
+
+  /* spacing */
+  --spacing-0: var(--space-0);
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-9: var(--space-9);
+  --spacing-10: var(--space-10);
+  --spacing-gutter-page: var(--gutter-page);
+  --spacing-gutter-page-lg: var(--gutter-page-lg);
+}
+
+/* Base styles — copied from the mockup (docs/design/extracted/tokens.source.css). */
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-ui);
+  font-size: var(--text-body-md);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+/*
+ * Link padrão do mockup (sublinhado de 1px). Em `@layer base` para que os
+ * utilitários do Tailwind (cor, borda) vençam: fora de camada, estas regras
+ * sobrescreviam `text-*`/`border-*` em qualquer <a> (Button href, cards, abas).
+ */
+@layer base {
+  a {
+    color: var(--text-link);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    transition: color var(--dur-fast) var(--ease-standard);
+  }
+
+  a:hover {
+    color: var(--text-link-hover);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--clay-3);
+  color: var(--paper-1);
+}
