@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { downloadAsJpg } from "@/lib/download/jpg";
 import type { PhotoTile } from "@/lib/gallery/types";
 import { PrivateImage } from "./PrivateImage";
 
@@ -104,6 +105,7 @@ export function Lightbox({
           <Button
             href={`/api/download/${tile.id}`}
             download
+            onClick={(event) => downloadAsJpg(event, tile.id)}
             variant="primary"
             size="md"
             iconLeft={<Icon name="arrow-down" size={15} strokeWidth={2.25} />}

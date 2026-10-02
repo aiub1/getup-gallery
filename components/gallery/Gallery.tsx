@@ -6,6 +6,7 @@ import { deletePhoto, loadMorePhotos } from "@/app/actions";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { downloadAsJpg } from "@/lib/download/jpg";
 import type { PhotoTile } from "@/lib/gallery/types";
 import { Lightbox } from "./Lightbox";
 import { PrivateImage } from "./PrivateImage";
@@ -83,7 +84,7 @@ function Tile({
           </button>
         )}
         {!tile.hidden && (
-          <a href={`/api/download/${tile.id}`} download aria-label={`Baixar foto ${position}`} className={downloadButton}>
+          <a href={`/api/download/${tile.id}`} download onClick={(event) => downloadAsJpg(event, tile.id)} aria-label={`Baixar foto ${position}`} className={downloadButton}>
             <Icon name="arrow-down" size={17} strokeWidth={2.25} />
           </a>
         )}
