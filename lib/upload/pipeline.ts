@@ -5,7 +5,7 @@ import { UPLOAD_VARIANTS, type UploadVariant } from "./limits";
 import type { ProcessedPhoto } from "./process-image";
 import type { ConfirmResult, PrepareResult } from "./types";
 
-export const MAX_PARALLEL_PHOTOS = 3;
+export const MAX_PARALLEL_PHOTOS = 1;
 
 export type ConfirmBody = {
   photoId: string;
