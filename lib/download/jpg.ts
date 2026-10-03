@@ -38,6 +38,21 @@ function clickLink(href: string, fileName: string): void {
   link.remove();
 }
 
+// No celular, a folha de compartilhamento do sistema oferece "Salvar imagem"
+// (iOS) / salvar na galeria (Android); um download comum cai em Arquivos.
+async function shareToGallery(blob: Blob, photoId: string): Promise<boolean> {
+  if (!window.matchMedia("(pointer: coarse)").matches) return false;
+  const file = new File([blob], `foto-${photoId.slice(0, 8)}.jpg`, { type: "image/jpeg" });
+  if (typeof navigator.canShare !== "function" || !navigator.canShare({ files: [file] })) return false;
+  try {
+    await navigator.share({ files: [file] });
+  } catch (error) {
+    // Cancelar a folha não é falha: não baixa de novo.
+    if (!(error instanceof DOMException && error.name === "AbortError")) return false;
+  }
+  return true;
+}
+
 /**
  * onClick dos links de download: baixa o JPG. Se a conversão falhar por
  * qualquer motivo, segue para a rota e baixa o WebP, como antes.
@@ -46,6 +61,7 @@ export async function downloadAsJpg(event: MouseEvent<HTMLAnchorElement>, photoI
   event.preventDefault();
   try {
     const blob = await fetchAsJpeg(photoId);
+    if (await shareToGallery(blob, photoId)) return;
     const url = URL.createObjectURL(blob);
     clickLink(url, `foto-${photoId.slice(0, 8)}.jpg`);
     setTimeout(() => URL.revokeObjectURL(url), 10_000);

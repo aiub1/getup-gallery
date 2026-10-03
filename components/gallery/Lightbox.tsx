@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type TouchEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { downloadAsJpg } from "@/lib/download/jpg";
@@ -30,6 +30,24 @@ export function Lightbox({
   onNext: (() => void) | null;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  function onTouchStart(event: TouchEvent) {
+    const touch = event.touches[0];
+    touchStart.current = event.touches.length === 1 && touch ? { x: touch.clientX, y: touch.clientY } : null;
+  }
+
+  function onTouchEnd(event: TouchEvent) {
+    const start = touchStart.current;
+    const touch = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start || !touch) return;
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if (dx < 0) onNext?.();
+    else onPrev?.();
+  }
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -60,7 +78,9 @@ export function Lightbox({
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="relative min-h-0 w-full max-w-[1100px] flex-1 overflow-hidden rounded-[var(--radius-card)] border border-border-hairline bg-surface-card"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        className="relative min-h-0 touch-pan-y w-full max-w-[1100px] flex-1 overflow-hidden rounded-[var(--radius-card)] border border-border-hairline bg-surface-card"
       >
         {/* key: troca o elemento a cada foto, para a anterior não ficar na tela enquanto a nova carrega */}
         <PrivateImage
