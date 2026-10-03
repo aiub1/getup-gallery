@@ -18,11 +18,6 @@ const roundButton =
 const downloadButton = roundButton + "bg-clay-3 text-night shadow-[0_2px_8px_rgba(0,0,0,.45)] hover:bg-clay-2";
 const deleteButton = roundButton + "bg-night/72 text-snow hover:bg-red-3 hover:text-night";
 
-/** Proporção real da foto; sem dimensões, quadrada. */
-function aspectRatio(tile: PhotoTile): string {
-  return tile.width && tile.height ? `${tile.width} / ${tile.height}` : "1 / 1";
-}
-
 function Tile({
   tile,
   position,
@@ -51,8 +46,7 @@ function Tile({
 
   return (
     <li
-      className="group relative mb-[8px] break-inside-avoid overflow-hidden rounded-[var(--radius-card)] bg-surface-card sm:mb-[12px]"
-      style={{ aspectRatio: aspectRatio(tile) }}
+      className="group relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] bg-surface-card"
     >
       <span className="absolute inset-0 grid place-items-center text-ink-5">
         <Icon name="image" size={22} />
@@ -184,7 +178,7 @@ export function Gallery({
 
   return (
     <>
-      <ul className="m-0 list-none columns-2 gap-[8px] p-0 sm:columns-3 sm:gap-[12px] lg:columns-4 xl:columns-5">
+      <ul className="m-0 grid list-none grid-cols-2 gap-[8px] p-0 sm:grid-cols-3 sm:gap-[12px] lg:grid-cols-4 xl:grid-cols-5">
         {tiles.map((tile, index) => (
           <Tile
             key={tile.id}
